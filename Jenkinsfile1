@@ -1,0 +1,32 @@
+pipeline { 
+ agent any
+ stages {
+    stage('Fetch code') {
+        steps {
+            git branch: 'vp-rem', url: 'https://github.com/582Bamfo/vprofile-project.git'
+    }
+ }
+ stage('build'){
+    steps {
+        sh 'mvn clean install -DskipTests'
+    }
+    post{
+        success{
+             echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+        }
+    }
+ }
+ stage('Test'){
+    steps {
+        sh 'mvn test'
+    }
+ }
+ #code analysis with maven	
+ stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+    steps {
+     sh 'mvn checkstyle:checkstyle'
+         }
+   }
+}
+}
