@@ -102,3 +102,7 @@ stage('Remove Unused docker image') {
                     sh "helm upgrade --install --force vproifle-stack helm/vprofilecharts --set appimage=${registry}:v${BUILD_NUMBER} --namespace prod"
             }      
 }
+
+    }
+}
+    
